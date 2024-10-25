@@ -316,3 +316,184 @@ The browser includes the input field data in the request body, where name='id' a
 When delete.php receives the request, it checks if $_POST['id'] is set.
 If it is set, PHP retrieves the value associated with id (in this case, 16) and assigns it to $student_id.
 Finally, it displays the message that includes the student ID.
+
+  Login Steps:-
+  1.Registration a user/Customer
+  2. Design a login form
+  3. Use the session for storing the data of user who has been login
+  4. Use the session to check whether the user is logged in or not. If not logged in, redirect to login page.
+  5. Create a profile page after login
+  6. If the user/customer is logged then redirect the user to the profile page
+  7. loggout from the system
+
+  ### Differences Between the Two
+
+1. **`mysqli_num_rows($result)`**:
+   - This is a procedural style function provided by the `mysqli` extension.
+   - It directly checks the number of rows in the result set associated with `$result`.
+   - Usage:
+     ```php
+     if (mysqli_num_rows($result) > 0) {
+         // There are rows in the result
+     }
+     ```
+
+2. **`$result->num_rows`**:
+   - This is an object-oriented style property of the `mysqli_result` object.
+   - It accesses the `num_rows` property of the `$result` object to determine the number of rows returned.
+   - Usage:
+     ```php
+     if ($result->num_rows > 0) {
+         // There are rows in the result
+     }
+     ```
+
+### Example Usage
+
+You can use either approach, depending on your coding style preference (procedural vs. object-oriented). Here’s how both would look in a complete example:
+
+```php
+$result = $connection->query("SELECT * FROM Students WHERE Email = '$username'");
+
+// Using procedural style
+if (mysqli_num_rows($result) > 0) {
+    $row = mysqli_fetch_assoc($result);
+    // Process the row data
+}
+
+// Using object-oriented style
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    // Process the row data
+}
+```
+
+ You can store the image in the database by either saving the image file path or storing the entire image file as binary data. Here’s a quick comparison:
+
+1. **Storing the File Path**: 
+   - Save only the file path in the database.
+   - The file itself remains on the server, and you fetch the path to display the image.
+   - This approach saves database space, especially if you have many images.
+
+2. **Storing the Image as Binary (BLOB)**: 
+   - Store the image data directly in the database using a BLOB (Binary Large Object) field.
+   - You retrieve the binary data and decode it for display.
+   - While this method makes backups straightforward, it can quickly increase database size.
+
+   Let’s go through examples of both methods in PHP: storing only the file path and storing the actual image in the database as binary data.
+
+### 1. Example: Storing the File Path in the Database
+
+This method uploads the image to a server folder, saves the file path in the database, and then retrieves the image using the file path.
+
+#### Step 1: Upload Image and Save Path
+
+```php
+<?php
+include("EG_PHP43_MAKAUT.php"); // Database connection
+
+if (isset($_POST['upload'])) {
+    $file = $_FILES['profile_image'];
+
+    // Define upload folder
+    $uploadDir = "uploads/";
+    $filePath = $uploadDir . basename($file['name']);
+
+    // Move file to the upload directory
+    if (move_uploaded_file($file['tmp_name'], $filePath)) {
+        $username = htmlspecialchars($_POST['username']);
+        
+        // Save file path in the database
+        $query = "INSERT INTO Users (username, profile_image) VALUES ('$username', '$filePath')";
+        if (mysqli_query($connection, $query)) {
+            echo "Image uploaded and path saved successfully!";
+        } else {
+            echo "Error saving path: " . mysqli_error($connection);
+        }
+    } else {
+        echo "Error uploading the file.";
+    }
+}
+?>
+```
+
+#### HTML Form
+
+```html
+<form action="" method="POST" enctype="multipart/form-data">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" required>
+    
+    <label for="profile_image">Upload Profile Image:</label>
+    <input type="file" id="profile_image" name="profile_image" required>
+    
+    <input type="submit" name="upload" value="Upload">
+</form>
+```
+
+#### Step 2: Retrieve and Display Image
+
+```php
+<?php
+include("EG_PHP43_MAKAUT.php");
+
+$query = "SELECT username, profile_image FROM Users";
+$result = mysqli_query($connection, $query);
+
+while ($row = mysqli_fetch_assoc($result)) {
+    echo "<h3>" . $row['username'] . "</h3>";
+    echo "<img src='" . $row['profile_image'] . "' alt='Profile Image' width='100'>";
+}
+?>
+```
+
+---
+
+### 2. Example: Storing the Image as Binary Data in the Database
+
+This example uploads the image, converts it to binary data, and saves it directly in the database as a BLOB.
+
+#### Step 1: Upload Image as Binary Data
+
+```php
+<?php
+include("EG_PHP43_MAKAUT.php");
+
+if (isset($_POST['upload'])) {
+    $file = $_FILES['profile_image'];
+    
+    // Open the file and read it as binary data
+    $imageData = addslashes(file_get_contents($file['tmp_name']));
+    $username = htmlspecialchars($_POST['username']);
+    
+    // Save binary data in the database
+    $query = "INSERT INTO Users (username, profile_image) VALUES ('$username', '$imageData')";
+    if (mysqli_query($connection, $query)) {
+        echo "Image uploaded as binary data!";
+    } else {
+        echo "Error: " . mysqli_error($connection);
+    }
+}
+?>
+```
+
+#### HTML Form
+
+The HTML form is the same as above.
+
+#### Step 2: Retrieve and Display Image
+
+```php
+<?php
+include("EG_PHP43_MAKAUT.php");
+
+$query = "SELECT username, profile_image FROM Users";
+$result = mysqli_query($connection, $query);
+
+while ($row = mysqli_fetch_assoc($result)) {
+    echo "<h3>" . $row['username'] . "</h3>";
+    echo '<img src="data:image/jpeg;base64,' . base64_encode($row['profile_image']) . '" width="100">';
+}
+?>
+```
+
