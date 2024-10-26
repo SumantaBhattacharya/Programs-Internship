@@ -1,0 +1,15 @@
+D:\xampp\htdocs\PHP43
+code D:\xampp\htdocs\PHP43
+
+D:\xampp\php\php.exe
+run this command in the search in file explorer
+
+How to register a user/customer in your project
+
+1. Create a database and a table
+2. Create the database connection in PHP
+3. Design a form in PHP as per the database table 
+4  After end of form write the insertion code into using PHP
+5. Test your registration code 
+
+
