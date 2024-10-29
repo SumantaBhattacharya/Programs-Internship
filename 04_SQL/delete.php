@@ -5,7 +5,7 @@ include("EG_PHP43_MAKAUT.php");
 // Check if 'id' is set in the POST request
 if (isset($_POST['id'])) {
     // Get the ID from the form submission
-    $student_id = $_POST['id'];// name = "id" value="16" thats how id = 16 supposedly
+    $student_id = $_POST['id'];// name = "id" value="16" thats how id = 16 supposedly from selectAll.php
     // echo "Hello, " . htmlspecialchars($student_id) . "! Your student_id has been submitted successfully.";
 
 

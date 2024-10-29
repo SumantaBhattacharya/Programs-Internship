@@ -93,6 +93,13 @@ $fullName = isset($userInfo['FirstName']) && isset($userInfo['LastName'])
 </body>
 </html>
 <!-- 
-
 http://localhost/PHP43/04_SQL/index.php
+-->
+
+<!-- 
+Admin login
+
+title- Login Admin
+form name ="log-frm method="POST"
+
 -->
