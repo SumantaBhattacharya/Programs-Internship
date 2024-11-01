@@ -2,7 +2,7 @@
 // session_start();
 $servername = "localhost";
 $username = "root";
-$password = "CJnm@#9501";
+$password = "";
 $dbname = "PHP43";
 
 // Create connection
