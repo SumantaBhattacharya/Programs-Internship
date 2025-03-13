@@ -520,3 +520,18 @@ LockoutMax                :
 SelfTest                  :
 
  -->
+
+# Industrial Training Certificate
+
+![Industrial Training Certificate](https://github.com/SumantaBhattacharya/Programs-Internship/blob/main/f024b549-b565-4d66-8a2a-2a3abffe597b.jpg)
+
+This certificate is awarded to **Sumanta Bhattacharya** for successfully completing the **Industrial Training Programme** on **Full Stack Web Development** using **PHP & MySQL**.
+
+- **Duration:** 26th August 2024 – 26th September 2024  
+- **Issued By:** Euphoria GenX  
+- **Signed By:** Avoy Debnath (Vice President)  
+- **Certification Date:** 27th September 2024  
+- **ISO Certified:** ISO 9001:2015  
+
+This training has provided hands-on experience in web development, covering backend technologies, database management, and full-stack project implementation.  
+
